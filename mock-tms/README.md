@@ -6,7 +6,7 @@ A minimal local MCP server (Python + FastMCP, stdio transport) that serves manua
 
 - `server.py` — FastMCP server `demo-tms` exposing two tools: `get_testcase(id)` and `find_testcases(query)`.
 - `test-cases.json` — test case data keyed by ID. Converted from a real TMS export (login feature; case text in Russian, `Feature`/`Story` custom fields in English to match the e2e repo structure). IDs are `TC-01…TC-11`; `TC-01` is the happy-path login case used in the demo.
-- `.mcp.json` — client registration template with absolute paths to the venv Python and `server.py`.
+- `.mcp.json` — client registration template with paths relative to the repo root (Windows venv layout; on macOS/Linux use `.venv/bin/python`).
 - `automating-testcases-demo.md` — the `automating-testcases` skill with step 1 patched to use the `demo-tms` tools (steps 2–8 unchanged).
 
 ## Setup
@@ -21,14 +21,14 @@ Skip if `.venv/` already exists in this folder.
 
 ## Register the server
 
-Merge the `mcpServers` block from `.mcp.json` into your MCP client's configuration (or point the client at this file, e.g. as a project-level `.mcp.json`). The paths are absolute, so the entry works regardless of the client's working directory. After registering, the client should list server `demo-tms` as connected with both tools.
+Merge the `mcpServers` block from `.mcp.json` into your MCP client's configuration (or point the client at this file, e.g. as a project-level `.mcp.json`). The paths are relative to the repo root, so the client must resolve them against the workspace — if your client resolves them differently, restore absolute paths in your local copy. After registering, the client should list server `demo-tms` as connected with both tools.
 
 ## Verify
 
 Option A — MCP Inspector:
 
 ```bash
-npx @modelcontextprotocol/inspector "C:\Code\demo-generating-automated-tests\mock-tms\.venv\Scripts\python.exe" "C:\Code\demo-generating-automated-tests\mock-tms\server.py"
+npx @modelcontextprotocol/inspector mock-tms/.venv/Scripts/python.exe mock-tms/server.py   # run from the repo root
 ```
 
 In the Inspector UI: connect, confirm tools `get_testcase` and `find_testcases` are listed, then call `get_testcase` with `{ "id": "TC-01" }` — it should return the full case.
