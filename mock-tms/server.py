@@ -1,3 +1,7 @@
+# /// script
+# requires-python = ">=3.10"
+# dependencies = ["fastmcp"]
+# ///
 """demo-tms — a minimal mock TMS served over MCP (stdio transport).
 
 Serves manual test cases from test-cases.json for the "test case -> autotest"

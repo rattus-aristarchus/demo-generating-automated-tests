@@ -1,8 +1,8 @@
 {
   "mcpServers": {
     "demo-tms": {
-      "command": "mock-tms/.venv/Scripts/python.exe",
-      "args": ["mock-tms/server.py"]
+      "command": "uv",
+      "args": ["run", "--script", "mock-tms/server.py"]
     }
   }
 }

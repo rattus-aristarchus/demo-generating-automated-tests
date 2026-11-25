@@ -4,12 +4,16 @@ A minimal local MCP server (Python + FastMCP, stdio transport) that serves manua
 
 ## Files
 
-- `server.py` — FastMCP server `demo-tms` exposing two tools: `get_testcase(id)` and `find_testcases(query)`.
+- `server.py` — FastMCP server `demo-tms` exposing two tools: `get_testcase(id)` and `find_testcases(query)`. Carries PEP 723 inline metadata, so `uv run --script` runs it without a venv.
 - `test-cases.json` — test case data keyed by ID. Converted from a real TMS export (login feature; case text in Russian, `Feature`/`Story` custom fields in English to match the e2e repo structure). IDs are `TC-01…TC-11`; `TC-01` is the happy-path login case used in the demo.
-- `.mcp.json` — client registration template with paths relative to the repo root (Windows venv layout; on macOS/Linux use `.venv/bin/python`).
+- `.mcp.json` — client registration template; launches the server via `uv run` with paths relative to the repo root (same entry on Windows, Linux and macOS).
 - `automating-testcases-demo.md` — the `automating-testcases` skill with step 1 patched to use the `demo-tms` tools (steps 2–8 unchanged).
 
 ## Setup
+
+Prerequisite: [`uv`](https://docs.astral.sh/uv/) on the client machine's PATH. Nothing else to install — `uv run --script` resolves and caches FastMCP from the inline metadata on first launch (a one-time download; warm it once by hand with `uv run --script mock-tms/server.py` if your client has a short server-startup timeout).
+
+Fallback without `uv` — create a venv in this folder and install FastMCP into it:
 
 ```bash
 python -m venv .venv
@@ -17,7 +21,7 @@ python -m venv .venv
 # .venv/bin/python -m pip install fastmcp        # Linux/macOS
 ```
 
-Skip if `.venv/` already exists in this folder.
+Then point the client config's `command` at the venv interpreter (`mock-tms/.venv/Scripts/python.exe` on Windows, `mock-tms/.venv/bin/python` on macOS/Linux) with `"args": ["mock-tms/server.py"]`.
 
 ## Register the server
 
@@ -28,19 +32,19 @@ Merge the `mcpServers` block from `.mcp.json` into your MCP client's configurati
 Option A — MCP Inspector:
 
 ```bash
-npx @modelcontextprotocol/inspector mock-tms/.venv/Scripts/python.exe mock-tms/server.py   # run from the repo root
+npx @modelcontextprotocol/inspector uv run --script mock-tms/server.py   # run from the repo root
 ```
 
 In the Inspector UI: connect, confirm tools `get_testcase` and `find_testcases` are listed, then call `get_testcase` with `{ "id": "TC-01" }` — it should return the full case.
 
-Option B — direct smoke call from Python (run from this folder; uses the actual `.mcp.json`):
+Option B — direct smoke call from Python (run from the repo root; uses the committed `.kimi-code/mcp.json`):
 
 ```python
 import asyncio, json
 from fastmcp import Client
 
 async def main():
-    config = json.load(open(".mcp.json", encoding="utf-8"))
+    config = json.load(open(".kimi-code/mcp.json", encoding="utf-8"))
     async with Client(config) as client:
         print([t.name for t in await client.list_tools()])
         result = await client.call_tool("get_testcase", {"id": "TC-01"})
@@ -48,6 +52,8 @@ async def main():
 
 asyncio.run(main())
 ```
+
+Run it with `uv run --with fastmcp smoke.py`, or with any Python that has `fastmcp` installed.
 
 ## Run the demo
 
