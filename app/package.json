@@ -1,0 +1,11 @@
+{
+  "name": "login-demo-app",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Demo login application matching TC-01..TC-11 (mock-tms), testable with TypeScript + Playwright",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js"
+  }
+}

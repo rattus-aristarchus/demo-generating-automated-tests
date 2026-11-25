@@ -1,0 +1,97 @@
+:root {
+  color-scheme: light;
+  font-family: "Segoe UI", system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #f4f6f8;
+  color: #1c2530;
+}
+
+.page {
+  max-width: 420px;
+  margin: 8vh auto;
+  padding: 0 16px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 32px;
+  background: #ffffff;
+  border: 1px solid #dde3ea;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(16, 42, 67, 0.08);
+}
+
+.login-form__title {
+  margin: 0;
+  font-size: 24px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field__label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.field__input {
+  padding: 10px 12px;
+  font-size: 15px;
+  border: 1px solid #b9c4d0;
+  border-radius: 8px;
+}
+
+.field__input:focus {
+  outline: 2px solid #2f6fed;
+  outline-offset: 1px;
+  border-color: #2f6fed;
+}
+
+.field__input[aria-invalid="true"] {
+  border-color: #d64545;
+}
+
+.field__error {
+  margin: 0;
+  font-size: 13px;
+  color: #d64545;
+}
+
+.form-error {
+  margin: 0;
+  padding: 10px 12px;
+  font-size: 14px;
+  color: #d64545;
+  background: #fdecec;
+  border: 1px solid #f3c2c2;
+  border-radius: 8px;
+}
+
+.login-form__submit,
+button[data-testid="logout-button"] {
+  padding: 11px 16px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #ffffff;
+  background: #2f6fed;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.login-form__submit:hover,
+button[data-testid="logout-button"]:hover {
+  background: #2559c4;
+}

@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Главная страница</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="page" data-testid="home-page">
+      <h1>Главная страница</h1>
+      <p>Вы авторизованы.</p>
+      <button type="button" data-testid="logout-button">Выйти</button>
+    </main>
+    <script type="module">
+      document.querySelector('[data-testid="logout-button"]').addEventListener("click", async () => {
+        await fetch("/api/logout", { method: "POST" });
+        window.location.assign("/login");
+      });
+    </script>
+  </body>
+</html>

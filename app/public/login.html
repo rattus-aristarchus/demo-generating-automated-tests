@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Вход</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="page" data-testid="login-page">
+      <form class="login-form" data-testid="login-form" novalidate>
+        <h1 class="login-form__title">Вход</h1>
+
+        <div class="field">
+          <label class="field__label" for="login">Логин</label>
+          <input
+            class="field__input"
+            id="login"
+            name="login"
+            type="text"
+            autocomplete="username"
+            data-testid="login-input"
+          />
+          <p class="field__error" id="login-error" role="alert" data-testid="login-error" hidden></p>
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="password">Пароль</label>
+          <input
+            class="field__input"
+            id="password"
+            name="password"
+            type="password"
+            autocomplete="current-password"
+            data-testid="password-input"
+          />
+          <p class="field__error" id="password-error" role="alert" data-testid="password-error" hidden></p>
+        </div>
+
+        <!-- Form-level error is rendered directly above the submit button (TC-06/TC-08). -->
+        <p class="form-error" id="form-error" role="alert" data-testid="form-error" hidden></p>
+
+        <button class="login-form__submit" type="submit" data-testid="login-submit">Войти</button>
+      </form>
+    </main>
+    <script src="/login.js" type="module"></script>
+  </body>
+</html>
