@@ -140,3 +140,10 @@ tools/gotestsum.exe.hash
 !packages/typescript/vendor/**/*.txt
 !tsc/testdata/submoduleAccepted.txt
 !tsc/testdata/submoduleTriaged.txt
+
+# Tests
+test-results/
+
+# Python
+__pycache__/
+*.pyc
