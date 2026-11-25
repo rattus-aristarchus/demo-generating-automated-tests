@@ -1,6 +1,6 @@
 """demo-tms — a minimal mock TMS served over MCP (stdio transport).
 
-Serves manual test cases from testcases.json for the "test case -> autotest"
+Serves manual test cases from test-cases.json for the "test case -> autotest"
 demo: in production any TMS can sit behind the same two-tool contract.
 """
 
@@ -9,8 +9,8 @@ from pathlib import Path
 
 from fastmcp import FastMCP
 
-DATA_FILE = Path(__file__).parent / "testcases.json"
-REQUIRED_FIELDS = {"id", "name", "description", "precondition", "scenario", "parameters", "custom_fields"}
+DATA_FILE = Path(__file__).parent / "test-cases.json"
+REQUIRED_FIELDS = {"id", "name", "description", "precondition", "scenario", "custom_fields"}
 
 
 def load_testcases(path: Path) -> dict:
@@ -35,7 +35,7 @@ mcp = FastMCP("demo-tms")
 
 @mcp.tool
 def get_testcase(id: str) -> dict:
-    """Return the full test case by ID (e.g. "DEMO-123"): name, description, precondition, scenario steps, parameters, custom fields."""
+    """Return the full test case by ID (e.g. "TC-01"): name, description, precondition, scenario steps, parameters (if any), custom fields."""
     if id not in TESTCASES:
         raise ValueError(f"Test case {id!r} not found. Known IDs: {', '.join(sorted(TESTCASES))}")
     return TESTCASES[id]
